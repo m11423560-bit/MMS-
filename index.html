@@ -89,7 +89,7 @@
 
         .hero-desc {
             max-width: 750px;
-            margin: 0 auto;
+            margin: 0 auto 30px;
             font-size: 1.1rem;
             line-height: 1.8;
             opacity: 0.95;
@@ -98,6 +98,50 @@
             padding: 20px;
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Navigation Action Buttons */
+        .hero-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary-action {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .btn-primary-action:hover {
+            background: #d97706;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-secondary-action {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-secondary-action:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-3px);
         }
 
         /* Main Container */
@@ -158,6 +202,20 @@
             color: var(--text-muted);
             font-size: 0.95rem;
             line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-link {
+            display: inline-block;
+            color: var(--primary-light);
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .card-link:hover {
+            color: var(--primary);
+            text-decoration: underline;
         }
 
         /* Quality Standards Section */
@@ -259,7 +317,17 @@
         <div class="school-location">QILA MURAD BUKHASH</div>
         
         <div class="hero-desc">
-            جدید تعلیمی پورٹل اور کیمپس مینجمنٹ سسٹم (CMS) میں خوش آمدید۔ یہاں تمام طالب علموں کا مکمل ریکارڈ، تعلیمی کارکردگی اور مالیاتی معلومات محفوظ اور منظم انداز میں دستاب ہیں۔
+            جدید تعلیمی پورٹل اور کیمپس مینجمنٹ سسٹم (CMS) میں خوش آمدید۔ یہاں تمام طالب علموں کا مکمل ریکارڈ، تعلیمی کارکردگی اور مالیاتی معلومات محفوظ اور منظم انداز میں دستیاب ہیں۔
+        </div>
+
+        <!-- Direct Admission Action Button -->
+        <div class="hero-actions">
+            <a href="admission.html" class="btn-action btn-primary-action">
+                <i class="fa-solid fa-user-plus"></i> نیا داخلہ فارم کھولیں
+            </a>
+            <a href="students.html" class="btn-action btn-secondary-action">
+                <i class="fa-solid fa-users"></i> طلباء کا ریکارڈ دیکھیں
+            </a>
         </div>
     </div>
 
@@ -272,18 +340,21 @@
                 <div class="card-icon"><i class="fa-solid fa-users-rectangle"></i></div>
                 <h3>طالب علموں کا مکمل ریکارڈ</h3>
                 <p>سکول میں موجود تمام طلبا و طالبات کے بائیو ڈیٹا، والدین کی تفصیلات اور رابطہ نمبرز کا مکمل اور محفوظ ڈائریکٹری سسٹم۔</p>
+                <a href="students.html" class="card-link">ریکارڈ چیک کریں &larr;</a>
             </div>
 
             <div class="card">
                 <div class="card-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
                 <h3>شفاف فیس و مالیاتی سٹرکچر</h3>
                 <p>داخلہ فیس، ماہانہ ٹیوشن فیس، ٹرانسپورٹ اور ڈسکاؤنٹ کی آٹو کیلکولیشن اور مکمل پرنٹ فرینڈلی رسیدیں اور فارمز۔</p>
+                <a href="admission.html" class="card-link">فیس و داخلہ فارم &larr;</a>
             </div>
 
             <div class="card">
                 <div class="card-icon"><i class="fa-solid fa-laptop-code"></i></div>
                 <h3>ڈیجیٹل کیمپس مینجمنٹ</h3>
                 <p>موبائل اور کمپیوٹر کی تمام سکرینز پر خود بخود ایڈجسٹ ہونے والا جدید ترین پورٹل جس سے ریکارڈ کا جائزہ لینا انتہائی آسان ہے۔</p>
+                <a href="admission.html" class="card-link">نیا داخلہ کریں &larr;</a>
             </div>
         </div>
 
