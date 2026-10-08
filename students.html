@@ -306,7 +306,7 @@
         <div class="controls-card">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" onkeyup="filterStudents()" placeholder="طالب علم کا نام، والد کا نام یا رول نمبر تلاش کریں...">
+                <input type="text" id="searchInput" onkeyup="filterStudents()" placeholder="طالب علم کا نام، والد کا نام یا G.R/رول نمبر تلاش کریں...">
             </div>
             <div class="filter-box">
                 <select id="classFilter" onchange="filterStudents()">
@@ -335,7 +335,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>رول نمبر</th>
+                        <th>G.R / رول نمبر</th>
                         <th>نام طالب علم</th>
                         <th>والد کا نام</th>
                         <th>کلاس</th>
@@ -345,7 +345,7 @@
                     </tr>
                 </thead>
                 <tbody id="studentTableBody">
-                    <!-- Dynamic Rows Will Load Here -->
+                    <!-- Dynamic Rows Will Load Here From Firebase -->
                 </tbody>
             </table>
             
@@ -358,47 +358,8 @@
 
     </div>
 
-    <!-- JavaScript Engine -->
+    <!-- JavaScript Filter Function -->
     <script>
-        // Load and Display Students from LocalStorage
-        function loadStudents() {
-            const students = JSON.parse(localStorage.getItem('mms_students')) || [];
-            const tbody = document.getElementById('studentTableBody');
-            const totalCount = document.getElementById('total-count');
-            const noDataMessage = document.getElementById('noDataMessage');
-
-            tbody.innerHTML = '';
-            totalCount.textContent = students.length;
-
-            if (students.length === 0) {
-                noDataMessage.style.display = 'block';
-                return;
-            } else {
-                noDataMessage.style.display = 'none';
-            }
-
-            students.forEach((student, index) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><strong>${student.rollNo || (index + 1)}</strong></td>
-                    <td>${student.studentName}</td>
-                    <td>${student.fatherName}</td>
-                    <td><span class="badge-class">${student.className}</span></td>
-                    <td>${student.phone || 'N/A'}</td>
-                    <td>Rs. ${student.monthlyFee || '0'}</td>
-                    <td class="actions-cell">
-                        <button class="btn-action-icon btn-print" onclick="printStudentCard(${index})" title="پرنٹ فارم">
-                            <i class="fa-solid fa-print"></i>
-                        </button>
-                        <button class="btn-action-icon btn-delete" onclick="deleteStudent(${index})" title="ڈیلیٹ کریں">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
         // Live Search and Filter Function
         function filterStudents() {
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
@@ -408,7 +369,7 @@
 
             rows.forEach(row => {
                 const text = row.innerText.toLowerCase();
-                const classText = row.children[3].innerText;
+                const classText = row.children[3]?.innerText || '';
 
                 const matchesSearch = text.includes(searchVal);
                 const matchesClass = classVal === "" || classText.includes(classVal);
@@ -424,24 +385,101 @@
             document.getElementById('noDataMessage').style.display = visibleCount === 0 ? 'block' : 'none';
         }
 
-        // Delete Student Record
-        function deleteStudent(index) {
-            if (confirm("کیا آپ واقعی اس طالب علم کا ریکارڈ ڈیلیٹ کرنا چاہتے ہیں؟")) {
-                let students = JSON.parse(localStorage.getItem('mms_students')) || [];
-                students.splice(index, 1);
-                localStorage.setItem('mms_students', JSON.stringify(students));
-                loadStudents();
-            }
-        }
-
         // Print Individual Student
-        function printStudentCard(index) {
-            alert("پرنٹ فارم کے لیے طالب علم سلیکٹ کر لیا گیا ہے۔");
-            // You can link to admission print view here
+        function printStudentCard(grNo) {
+            alert("G.R No. " + grNo + " کا فارم پرنٹ کے لیے تیار ہے۔");
+            // window.location.href = `admission.html?gr_no=${grNo}`;
+        }
+    </script>
+
+    <!-- Firebase Engine Scripts (ES6 Module) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC1FaG4y0KvGR14AUtkyFv8JqjvSMi3JM0",
+            authDomain: "mms-cms.firebaseapp.com",
+            databaseURL: "https://mms-cms-default-rtdb.firebaseio.com",
+            projectId: "mms-cms",
+            storageBucket: "mms-cms.firebasestorage.app",
+            messagingSenderId: "611376873606",
+            appId: "1:611376873606:web:3d47d4eeeb5d0d36391107"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Fetch & Realtime Listen Students Data from Firebase
+        function listenToStudentData() {
+            const studentsRef = ref(database, 'students');
+            const tbody = document.getElementById('studentTableBody');
+            const totalCount = document.getElementById('total-count');
+            const noDataMessage = document.getElementById('noDataMessage');
+
+            onValue(studentsRef, (snapshot) => {
+                tbody.innerHTML = '';
+                const data = snapshot.val();
+
+                if (!data) {
+                    totalCount.textContent = '0';
+                    noDataMessage.style.display = 'block';
+                    return;
+                }
+
+                noDataMessage.style.display = 'none';
+                const studentKeys = Object.keys(data);
+                totalCount.textContent = studentKeys.length;
+
+                studentKeys.forEach((key) => {
+                    const student = data[key];
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><strong>${student.gr_no || student.roll_no || key}</strong></td>
+                        <td>${student.student_name || 'N/A'}</td>
+                        <td>${student.father_name || 'N/A'}</td>
+                        <td><span class="badge-class">${student.enrolled_class || 'N/A'}</span></td>
+                        <td>${student.primary_phone || 'N/A'}</td>
+                        <td>Rs. ${student.monthly_fee || '0'}</td>
+                        <td class="actions-cell">
+                            <button class="btn-action-icon btn-print" onclick="printStudentCard('${student.gr_no || key}')" title="پرنٹ فارم">
+                                <i class="fa-solid fa-print"></i>
+                            </button>
+                            <button class="btn-action-icon btn-delete" onclick="window.deleteStudentFromFirebase('${key}')" title="ڈیلیٹ کریں">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                // Apply search filters if input is actively typed
+                filterStudents();
+            }, (error) => {
+                console.error("Firebase fetch error:", error);
+            });
         }
 
-        // Initial Load on Page Ready
-        window.onload = loadStudents;
+        // Delete Student directly from Firebase Database
+        window.deleteStudentFromFirebase = function(grNoKey) {
+            if (confirm("کیا آپ واقعی اس طالب علم کا ریکارڈ فائر بیس سے ڈیلیٹ کرنا چاہتے ہیں؟")) {
+                const studentItemRef = ref(database, 'students/' + grNoKey);
+                remove(studentItemRef)
+                    .then(() => {
+                        alert("طالب علم کا ریکارڈ کامیابی سے ڈیلیٹ کر دیا گیا ہے!");
+                    })
+                    .catch((error) => {
+                        console.error("ڈیلیٹ کرنے میں مسئلہ:", error);
+                        alert("ڈیلیٹ نہیں ہو سکا: " + error.message);
+                    });
+            }
+        };
+
+        // Execute on Load
+        window.addEventListener('DOMContentLoaded', listenToStudentData);
     </script>
+
 </body>
 </html>
