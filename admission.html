@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پروفیشنل طالب علم داخلہ فارم - سکول CMS</title>
+    <title>پروفیشنل طالب علم داخلہ فارم - MMS CMS</title>
     <!-- Google Fonts: Noto Nastaliq Urdu & Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -285,6 +285,29 @@
             background-color: #2c5282;
         }
 
+        /* Status Toast Alert */
+        #statusMessage {
+            display: none;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
         /* Hide Print Only Header on Screen */
         .print-header-official, .print-footer-signatures {
             display: none;
@@ -314,7 +337,7 @@
             }
 
             /* Hide Unnecessary Screen Components */
-            .form-header, .button-group, input[type="file"], small {
+            .form-header, .button-group, input[type="file"], small, #statusMessage {
                 display: none !important;
             }
 
@@ -333,7 +356,7 @@
             .school-info {
                 text-align: center;
                 width: 100%;
-                padding-right: 120px; /* Leave space for photo on top right */
+                padding-right: 120px;
             }
 
             .school-info h1 {
@@ -456,12 +479,10 @@
                 height: 23px !important;
             }
 
-            /* Hide Web Upload Area in Print */
             .photo-upload-wrapper {
                 display: none !important;
             }
 
-            /* Fee Box Clean Print Style */
             .fee-summary-box {
                 padding: 6px 12px !important;
                 margin-top: 6px !important;
@@ -473,11 +494,10 @@
             .fee-summary-box small { display: none !important; }
             .fee-summary-box .amount { font-size: 13px !important; color: #166534 !important; }
 
-            /* Official Signatures Footer */
             .print-footer-signatures {
                 display: flex !important;
                 justify-content: space-between;
-                margin-top: 20px;
+                margin-top: 25px;
                 padding-top: 10px;
             }
 
@@ -497,14 +517,13 @@
 
 <div class="container">
 
-    <!-- Official Printable Header (Centered with Photo on Top Right) -->
+    <!-- Official Printable Header -->
     <div class="print-header-official">
         <div class="school-info">
-            <h1>دی لرنرز سکول و کالج سسٹم</h1>
-            <p><i class="fa-solid fa-location-dot"></i> مین کیمپس، لاہور روڈ | فون: 042-30000000</p>
+            <h1>منہاج ماڈل سکول</h1>
+            <p><i class="fa-solid fa-location-dot"></i> قلعہ مراد بخش | فون: 0300-0000000</p>
             <div class="form-title-badge">طالب علم کا رسمی داخلہ فارم (Official Admission Form)</div>
         </div>
-        <!-- Official Photo Frame on Top Right -->
         <div class="official-photo-box">
             <img id="printPreviewImage" src="" alt="" style="display:none;">
             <span id="printPhotoPlaceholder">پاسپورٹ سائز تصویر</span>
@@ -518,11 +537,14 @@
             <p>براہِ کرم طالب علم کے تمام بنیادی اور تعلیمی ریکارڈ کے خانے احتیاط سے پر کریں۔</p>
         </div>
         <div class="header-badge">
-            <i class="fa-solid fa-graduation-cap"></i> سیشن 2026-2027
+            <i class="fa-solid fa-graduation-cap"></i> MMS CMS Database System
         </div>
     </div>
 
-    <form id="studentAdmissionForm" onsubmit="handleFormSubmit(event)">
+    <!-- Message Alert Area -->
+    <div id="statusMessage"></div>
+
+    <form id="studentAdmissionForm">
 
         <!-- 1. Student Personal Information -->
         <div class="card">
@@ -532,43 +554,36 @@
             </div>
             
             <div class="form-grid">
-                <!-- Admission No -->
                 <div class="form-group">
                     <label>داخلہ / جی آر نمبر <span class="required">*</span></label>
-                    <input type="text" id="gr_no" placeholder="مثال: GR-2026-001" required>
+                    <input type="text" id="gr_no" placeholder="مثال: GR-101" required>
                 </div>
 
-                <!-- Roll No -->
                 <div class="form-group">
                     <label>رول نمبر</label>
                     <input type="text" id="roll_no" placeholder="مثال: 101">
                 </div>
 
-                <!-- Admission Date -->
                 <div class="form-group">
                     <label>تاریخِ داخلہ <span class="required">*</span></label>
                     <input type="date" id="admission_date" required>
                 </div>
 
-                <!-- Full Name -->
                 <div class="form-group">
                     <label>مکمل نام (طالب علم) <span class="required">*</span></label>
                     <input type="text" id="student_name" placeholder="طالب علم کا نام درج کریں" required>
                 </div>
 
-                <!-- B-Form / CNIC -->
                 <div class="form-group">
                     <label>ب-فارم / شناختی کارڈ نمبر <span class="required">*</span></label>
                     <input type="text" id="b_form" placeholder="35201-0000000-0" required>
                 </div>
 
-                <!-- Date of Birth -->
                 <div class="form-group">
                     <label>تاریخِ پیدائش <span class="required">*</span></label>
                     <input type="date" id="dob" required>
                 </div>
 
-                <!-- Gender -->
                 <div class="form-group">
                     <label>جنس (Gender) <span class="required">*</span></label>
                     <select id="gender" required>
@@ -578,7 +593,6 @@
                     </select>
                 </div>
 
-                <!-- Religion -->
                 <div class="form-group">
                     <label>مذہب</label>
                     <select id="religion">
@@ -588,7 +602,6 @@
                     </select>
                 </div>
 
-                <!-- Student Photo Upload (Screen Only) -->
                 <div class="form-group full-width photo-upload-wrapper">
                     <label>طالب علم کی تصویر (Student Photo)</label>
                     <div style="display: flex; align-items: center; gap: 20px;">
@@ -598,7 +611,7 @@
                             <img id="previewImage" src="" alt="Student Photo">
                         </div>
                         <div>
-                            <input type="file" id="student_photo" accept="image/*" onchange="previewFile()">
+                            <input type="file" id="student_photo" accept="image/*">
                             <small style="color: var(--text-muted); display: block; margin-top: 5px;">پاسپورٹ سائز تصویر (حجم: 2MB سے کم)</small>
                         </div>
                     </div>
@@ -614,43 +627,36 @@
             </div>
             
             <div class="form-grid">
-                <!-- Father Name -->
                 <div class="form-group">
                     <label>والد کا نام <span class="required">*</span></label>
                     <input type="text" id="father_name" placeholder="والد کا مکمل نام" required>
                 </div>
 
-                <!-- Father CNIC -->
                 <div class="form-group">
                     <label>والد کا شناختی کارڈ نمبر <span class="required">*</span></label>
                     <input type="text" id="father_cnic" placeholder="35201-0000000-0" required>
                 </div>
 
-                <!-- Father Occupation -->
                 <div class="form-group">
                     <label>والد کا پیشہ / ملازمت</label>
                     <input type="text" id="father_occupation" placeholder="مثال: کاروبار / ملازم">
                 </div>
 
-                <!-- Primary Phone -->
                 <div class="form-group">
                     <label>رابطہ نمبر (موبائل) <span class="required">*</span></label>
                     <input type="tel" id="primary_phone" placeholder="0300-0000000" required>
                 </div>
 
-                <!-- Mother Name -->
                 <div class="form-group">
                     <label>والدہ کا نام</label>
                     <input type="text" id="mother_name" placeholder="والدہ کا نام">
                 </div>
 
-                <!-- Guardian Name (Optional) -->
                 <div class="form-group">
                     <label>سرپرست کا نام (اگر والد سے مختلف ہو)</label>
                     <input type="text" id="guardian_name" placeholder="سرپرست کا نام">
                 </div>
 
-                <!-- Address -->
                 <div class="form-group full-width">
                     <label>گھر کا مکمل پتہ <span class="required">*</span></label>
                     <textarea id="home_address" placeholder="موجودہ رہائشی پتہ درج کریں..." required></textarea>
@@ -666,19 +672,16 @@
             </div>
 
             <div class="form-grid">
-                <!-- Previous School -->
                 <div class="form-group">
                     <label>سابقہ سکول کا نام</label>
                     <input type="text" id="prev_school" placeholder="پچھلے سکول کا نام">
                 </div>
 
-                <!-- Previous Class -->
                 <div class="form-group">
                     <label>سابقہ پاس کردہ کلاس</label>
                     <input type="text" id="prev_class" placeholder="مثال: کلاس 4">
                 </div>
 
-                <!-- Marks / Percentage -->
                 <div class="form-group">
                     <label>حاصل کردہ نمبر / فیصد (%)</label>
                     <input type="text" id="prev_marks" placeholder="مثال: 85% یا 450/500">
@@ -694,19 +697,16 @@
             </div>
 
             <div class="form-grid">
-                <!-- Emergency Contact Person -->
                 <div class="form-group">
                     <label>ایمرجنسی رابطہ کنندہ</label>
                     <input type="text" id="emerg_person" placeholder="نام درج کریں">
                 </div>
 
-                <!-- Emergency Contact Phone -->
                 <div class="form-group">
                     <label>ایمرجنسی فون نمبر</label>
                     <input type="tel" id="emerg_phone" placeholder="0300-0000000">
                 </div>
 
-                <!-- Blood Group -->
                 <div class="form-group">
                     <label>بلڈ گروپ (Blood Group)</label>
                     <select id="blood_group">
@@ -732,7 +732,6 @@
             </div>
 
             <div class="form-grid">
-                <!-- Target Class -->
                 <div class="form-group">
                     <label>مطلوبہ کلاس (Class Enrolled) <span class="required">*</span></label>
                     <select id="enrolled_class" required>
@@ -752,7 +751,6 @@
                     </select>
                 </div>
 
-                <!-- Section -->
                 <div class="form-group">
                     <label>سیکشن (Section)</label>
                     <select id="enrolled_section">
@@ -762,32 +760,27 @@
                     </select>
                 </div>
 
-                <!-- Admission Fee (One-time) -->
                 <div class="form-group">
                     <label>داخلہ فیس (Admission Fee)</label>
-                    <input type="number" id="admission_fee" value="0" min="0" oninput="calculateNetFee()">
+                    <input type="number" id="admission_fee" value="0" min="0">
                 </div>
 
-                <!-- Monthly Tuition Fee -->
                 <div class="form-group">
                     <label>ماہانہ ٹیوشن فیس <span class="required">*</span></label>
-                    <input type="number" id="monthly_fee" value="0" min="0" oninput="calculateNetFee()" required>
+                    <input type="number" id="monthly_fee" value="0" min="0" required>
                 </div>
 
-                <!-- Transport / Bus Fee -->
                 <div class="form-group">
                     <label>وین / ٹرانسپورٹ فیس</label>
-                    <input type="number" id="transport_fee" value="0" min="0" oninput="calculateNetFee()">
+                    <input type="number" id="transport_fee" value="0" min="0">
                 </div>
 
-                <!-- Concession / Discount -->
                 <div class="form-group">
                     <label>فیس رعایت / ڈسکاؤنٹ (Discount)</label>
-                    <input type="number" id="fee_discount" value="0" min="0" oninput="calculateNetFee()">
+                    <input type="number" id="fee_discount" value="0" min="0">
                 </div>
             </div>
 
-            <!-- Fee Summary Output Box -->
             <div class="fee-summary-box">
                 <div>
                     <h3>کل قابلِ ادا ماہانہ فیس (Net Payable Monthly Fee):</h3>
@@ -799,103 +792,163 @@
 
         <!-- Official Signatures for Print Document -->
         <div class="print-footer-signatures">
-            <div class="sig-box">والدین / سرپرست کے دستخط</div>
-            <div class="sig-box">انچارچ داخلہ دستخط</div>
-            <div class="sig-box">پرنسپل کی مہر و دستخط</div>
+            <div class="sig-box">دستخط والد / سرپرست</div>
+            <div class="sig-box">دستخط انچارج داخلہ</div>
+            <div class="sig-box">دستخط پرنسپل / مہر</div>
         </div>
 
-        <!-- Form Action Buttons -->
+        <!-- Action Buttons -->
         <div class="button-group">
-            <button type="button" class="btn btn-secondary" onclick="resetForm()">
-                <i class="fa-solid fa-rotate-right"></i> فارم صاف کریں
+            <button type="reset" class="btn btn-secondary">
+                <i class="fa-solid fa-rotate-left"></i> ری سیٹ
             </button>
             <button type="button" class="btn btn-print" onclick="window.print()">
-                <i class="fa-solid fa-print"></i> پرنٹ فارم (Print Official Form)
+                <i class="fa-solid fa-print"></i> پرنٹ فارم
             </button>
-            <button type="submit" class="btn btn-primary">
-                <i class="fa-solid fa-floppy-disk"></i> ریکارڈ محفوظ کریں (Save Entry)
+            <button type="submit" id="saveBtn" class="btn btn-primary">
+                <i class="fa-solid fa-cloud-arrow-up"></i> داخلہ محفوظ کریں
             </button>
         </div>
 
     </form>
 </div>
 
-<script>
-    // Set Current Date as Default Admission Date
-    document.getElementById('admission_date').valueAsDate = new Date();
+<!-- FIREBASE MODULE SCRIPT -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
-    // Photo Preview Function (Sync with Print Layout)
-    function previewFile() {
-        const preview = document.getElementById('previewImage');
-        const printPreview = document.getElementById('printPreviewImage');
-        const printPlaceholder = document.getElementById('printPhotoPlaceholder');
-        const file = document.getElementById('student_photo').files[0];
-        const reader = new FileReader();
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyC1FaG4y0KvGR14AUtkyFv8JqjvSMi3JM0",
+        authDomain: "mms-cms.firebaseapp.com",
+        databaseURL: "https://mms-cms-default-rtdb.firebaseio.com",
+        projectId: "mms-cms",
+        storageBucket: "mms-cms.firebasestorage.app",
+        messagingSenderId: "611376873606",
+        appId: "1:611376873606:web:3d47d4eeeb5d0d36391107"
+    };
 
-        reader.onloadend = function () {
-            preview.src = reader.result;
-            preview.style.display = "block";
+    // Initialize Firebase & Database
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
 
-            // Set Print Photo Frame
-            printPreview.src = reader.result;
-            printPreview.style.display = "block";
-            printPlaceholder.style.display = "none";
-        }
+    let photoBase64 = "";
 
+    // Image preview and Base64 conversion
+    document.getElementById('student_photo').addEventListener('change', (e) => {
+        const file = e.target.files[0];
         if (file) {
-            reader.readAsDataURL(file);
-        } else {
-            preview.src = "";
-            preview.style.display = "none";
-            printPreview.src = "";
-            printPreview.style.display = "none";
-            printPlaceholder.style.display = "block";
-        }
-    }
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                photoBase64 = evt.target.result;
+                
+                // Screen preview
+                document.getElementById('previewImage').src = photoBase64;
+                document.getElementById('previewImage').style.display = 'block';
+                document.querySelector('#photoPreview i').style.display = 'none';
+                document.querySelector('#photoPreview span').style.display = 'none';
 
-    // Dynamic Net Fee Calculation Function
+                // Print preview
+                document.getElementById('printPreviewImage').src = photoBase64;
+                document.getElementById('printPreviewImage').style.display = 'block';
+                document.getElementById('printPhotoPlaceholder').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Auto Calculate Net Fee
+    const feeInputs = ['monthly_fee', 'transport_fee', 'fee_discount'];
+    feeInputs.forEach(id => {
+        document.getElementById(id).addEventListener('input', calculateNetFee);
+    });
+
     function calculateNetFee() {
-        const monthly = parseFloat(document.getElementById('monthly_fee').value) || 0;
-        const transport = parseFloat(document.getElementById('transport_fee').value) || 0;
+        const monthlyFee = parseFloat(document.getElementById('monthly_fee').value) || 0;
+        const transportFee = parseFloat(document.getElementById('transport_fee').value) || 0;
         const discount = parseFloat(document.getElementById('fee_discount').value) || 0;
 
-        const netPayable = (monthly + transport) - discount;
-        document.getElementById('netMonthlyPayable').innerText = "Rs. " + (netPayable > 0 ? netPayable : 0);
+        const netPayable = (monthlyFee + transportFee) - discount;
+        const finalAmount = netPayable > 0 ? netPayable : 0;
+
+        document.getElementById('netMonthlyPayable').innerText = `Rs. ${finalAmount.toLocaleString()}`;
+        return finalAmount;
     }
 
-    // Reset Form Confirmation
-    function resetForm() {
-        if(confirm("کیا آپ واقعی تمام خانے خالی کرنا چاہتے ہیں؟")) {
-            document.getElementById('studentAdmissionForm').reset();
-            document.getElementById('previewImage').style.display = "none";
-            document.getElementById('printPreviewImage').style.display = "none";
-            document.getElementById('printPhotoPlaceholder').style.display = "block";
-            calculateNetFee();
-        }
+    // Set default admission date
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('admission_date').value = today;
+
+    // Show Alert Messages
+    function showAlert(message, type) {
+        const msgDiv = document.getElementById('statusMessage');
+        msgDiv.innerText = message;
+        msgDiv.className = type === 'success' ? 'status-success' : 'status-error';
+        msgDiv.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        setTimeout(() => {
+            msgDiv.style.display = 'none';
+        }, 5000);
     }
 
-    // Form Submission Handler
-    function handleFormSubmit(event) {
-        event.preventDefault();
-        
-        // Collect All Form Data in Object
-        const formData = {
-            gr_no: document.getElementById('gr_no').value,
-            roll_no: document.getElementById('roll_no').value,
-            admission_date: document.getElementById('admission_date').value,
-            student_name: document.getElementById('student_name').value,
-            b_form: document.getElementById('b_form').value,
+    // Save Student Admission Data to Firebase Realtime Database
+    document.getElementById('studentAdmissionForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const saveBtn = document.getElementById('saveBtn');
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> محفوظ ہو رہا ہے...`;
+
+        const grNo = document.getElementById('gr_no').value.trim().replace(/[\/\.\#\$\[\]]/g, "_");
+        const netFee = calculateNetFee();
+
+        const studentData = {
+            grNo: document.getElementById('gr_no').value.trim(),
+            rollNo: document.getElementById('roll_no').value.trim(),
+            admissionDate: document.getElementById('admission_date').value,
+            studentName: document.getElementById('student_name').value.trim(),
+            bForm: document.getElementById('b_form').value.trim(),
             dob: document.getElementById('dob').value,
             gender: document.getElementById('gender').value,
-            father_name: document.getElementById('father_name').value,
-            primary_phone: document.getElementById('primary_phone').value,
-            enrolled_class: document.getElementById('enrolled_class').value,
-            net_monthly_fee: document.getElementById('netMonthlyPayable').innerText
+            religion: document.getElementById('religion').value,
+            fatherName: document.getElementById('father_name').value.trim(),
+            fatherCnic: document.getElementById('father_cnic').value.trim(),
+            fatherOccupation: document.getElementById('father_occupation').value.trim(),
+            primaryPhone: document.getElementById('primary_phone').value.trim(),
+            motherName: document.getElementById('mother_name').value.trim(),
+            guardianName: document.getElementById('guardian_name').value.trim(),
+            homeAddress: document.getElementById('home_address').value.trim(),
+            prevSchool: document.getElementById('prev_school').value.trim(),
+            prevClass: document.getElementById('prev_class').value.trim(),
+            prevMarks: document.getElementById('prev_marks').value.trim(),
+            emergPerson: document.getElementById('emerg_person').value.trim(),
+            emergPhone: document.getElementById('emerg_phone').value.trim(),
+            bloodGroup: document.getElementById('blood_group').value,
+            enrolledClass: document.getElementById('enrolled_class').value,
+            enrolledSection: document.getElementById('enrolled_section').value,
+            admissionFee: parseFloat(document.getElementById('admission_fee').value) || 0,
+            monthlyFee: parseFloat(document.getElementById('monthly_fee').value) || 0,
+            transportFee: parseFloat(document.getElementById('transport_fee').value) || 0,
+            feeDiscount: parseFloat(document.getElementById('fee_discount').value) || 0,
+            netMonthlyFee: netFee,
+            photoBase64: photoBase64,
+            createdAt: new Date().toISOString()
         };
 
-        console.log("Submitted Data:", formData);
-        alert("طالب علم " + formData.student_name + " کا فارم کامیابی سے پر ہو گیا ہے!");
-    }
+        try {
+            // Save inside 'students/GR_NUMBER'
+            await set(ref(database, 'students/' + grNo), studentData);
+            showAlert('طالب علم کا ڈیٹا Firebase Realtime Database میں کامیابی سے محفوظ ہو گیا ہے!', 'success');
+        } catch (error) {
+            console.error("Firebase Error:", error);
+            showAlert('ڈیٹا محفوظ کرنے میں مسئلہ پیش آیا: ' + error.message, 'error');
+        } finally {
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> داخلہ محفوظ کریں`;
+        }
+    });
 </script>
 
 </body>
